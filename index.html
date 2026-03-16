@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prompt Efficiency Playbook | The AI Lyceum</title>
+<meta name="description" content="Primary research: 55 controlled experiments measuring real token savings with Claude. The AI Lyceum, March 2026.">
+<meta name="author" content="Samraj Matharu, The AI Lyceum">
+<meta property="og:title" content="The Prompt Efficiency Playbook | The AI Lyceum">
+<meta property="og:description" content="One prompt change cuts Claude's output tokens by 73.9%, saving £71 per £100 spent. Primary research with 55 controlled experiments.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://prompts.theailyceum.com">
+<meta property="og:image" content="https://prompts.theailyceum.com/fig7_primary_dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Prompt Efficiency Playbook | The AI Lyceum">
+<meta name="twitter:description" content="One prompt change cuts Claude's output tokens by 73.9%. Primary research with 55 controlled experiments.">
+<meta name="twitter:image" content="https://prompts.theailyceum.com/fig7_primary_dashboard.png">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --color-bg: #f8f1e4;
+  --color-bg-alt: #f0e6d0;
+  --color-text: #1a2a3a;
+  --color-text-light: #3d4f5f;
+  --color-accent: #0d2738;
+  --color-accent-light: #1e4a6e;
+  --color-divider: #c4a882;
+  --color-divider-light: #d9c9a8;
+  --color-pullquote: #6b2d2d;
+  --color-positive: #1a6b3a;
+  --color-negative: #8b2020;
+  --font-serif: Georgia, 'Times New Roman', 'Palatino Linotype', serif;
+  --font-sans: system-ui, -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --line-height: 1.78;
+}
+
+html { font-size: 17px; -webkit-font-smoothing: antialiased; background: #525659; }
+
+body {
+  font-family: var(--font-serif);
+  background-color: #525659;
+  color: var(--color-text);
+  line-height: var(--line-height);
+  margin: 0;
+  padding: 40px 0;
+  counter-reset: page-number;
+}
+
+.document-page {
+  background: var(--color-bg);
+  max-width: 8.5in;
+  margin: 0 auto 20px;
+  padding: 1in;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.page-number {
+  counter-increment: page-number;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #666;
+  margin: 3em 0 2em;
+  padding: 1.5em 0 0.8em;
+  border-top: 3px double #c4a882;
+  page-break-before: always;
+}
+.page-number::before { content: "\25C6"; display: block; font-size: 0.6rem; color: #c4a882; margin-bottom: 0.5em; }
+.page-number::after { content: "Page " counter(page-number); font-weight: 600; letter-spacing: 0.1em; }
+.page-footer {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  color: #999;
+  letter-spacing: 0.05em;
+  margin-top: 0.3em;
+}
+
+/* ===== MASTHEAD ===== */
+.masthead { text-align: center; padding-bottom: 40px; margin-bottom: 48px; border-bottom: 1px solid var(--color-divider); }
+.masthead .logo { display: block; margin: 0 auto 24px; width: 120px; height: auto; }
+.masthead .publication-name { font-family: var(--font-sans); font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--color-text-light); margin-bottom: 32px; }
+.masthead .title { font-family: var(--font-sans); font-size: 2.4rem; font-weight: 700; color: var(--color-accent); line-height: 1.15; margin-bottom: 12px; letter-spacing: -0.02em; }
+.masthead .subtitle { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 400; font-style: italic; color: var(--color-text-light); margin-bottom: 8px; line-height: 1.4; }
+.masthead .description {
+  font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent);
+  background: linear-gradient(135deg, #faf6ed 0%, #f0e6d0 100%); border: 2px solid var(--color-divider); border-radius: 2px;
+  padding: 14px 32px; margin: 20px auto 16px; max-width: 520px;
+  box-shadow: 0 4px 12px rgba(13,39,56,0.08), inset 0 1px 0 rgba(255,255,255,0.5); position: relative; line-height: 1.6;
+}
+.masthead .description::before, .masthead .description::after { content: '\2726'; position: absolute; font-size: 10px; color: var(--color-divider); top: 50%; transform: translateY(-50%); }
+.masthead .description::before { left: 12px; }
+.masthead .description::after { right: 12px; }
+.masthead .author-block { font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-text-light); margin-bottom: 4px; }
+.masthead .author-block .author-name { font-weight: 600; color: var(--color-text); display: block; margin-bottom: 4px; }
+.masthead .date { font-family: var(--font-sans); font-size: 0.8rem; color: var(--color-text-light); margin-bottom: 10px; }
+.keywords { font-family: var(--font-sans); font-size: 0.72rem; color: var(--color-text-light); line-height: 1.6; max-width: 560px; margin: 0 auto; }
+.keywords strong { font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* ===== TOC ===== */
+.toc { background: var(--color-bg-alt); border: 1px solid var(--color-divider-light); padding: 28px 36px; margin: 40px 0 48px; page-break-inside: avoid; }
+.toc h2 { font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-divider); }
+.toc-list { list-style: none; padding: 0; margin: 0; }
+.toc-list li { display: flex; align-items: baseline; margin-bottom: 8px; font-family: var(--font-sans); font-size: 0.85rem; line-height: 1.5; }
+.toc-num { font-weight: 700; color: var(--color-accent); min-width: 42px; flex-shrink: 0; }
+.toc-dots { flex: 1; border-bottom: 1px dotted var(--color-divider); margin: 0 8px; min-width: 20px; position: relative; top: -4px; }
+.toc-title { flex-shrink: 0; color: var(--color-text); }
+
+/* ===== HEADINGS ===== */
+h1 { font-family: var(--font-sans); font-size: 1.7rem; font-weight: 700; color: var(--color-accent); margin-top: 48px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--color-accent); letter-spacing: -0.01em; line-height: 1.2; page-break-after: avoid; }
+h2 { font-family: var(--font-sans); font-size: 1.25rem; font-weight: 600; color: var(--color-accent); margin-top: 36px; margin-bottom: 16px; line-height: 1.3; page-break-after: avoid; }
+h3 { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600; color: var(--color-accent-light); margin-top: 28px; margin-bottom: 12px; line-height: 1.35; page-break-after: avoid; }
+
+/* ===== TEXT ===== */
+p { margin-bottom: 16px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+strong { font-weight: 700; color: var(--color-text); }
+em { font-style: italic; }
+
+/* ===== ABSTRACT ===== */
+.abstract { background: var(--color-bg-alt); border-left: 3px solid var(--color-accent); padding: 24px 28px; margin: 40px 0; page-break-inside: avoid; }
+.abstract h2 { font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-accent); margin-top: 0; margin-bottom: 12px; }
+.abstract p { font-size: 0.92rem; line-height: 1.65; color: var(--color-text-light); margin-bottom: 0; }
+
+/* ===== ELI5 ===== */
+.eli5 { background: #faf6ed; border: 1px dashed var(--color-divider); padding: 16px 20px; margin: 20px 0; page-break-inside: avoid; }
+.eli5 h4 { font-family: var(--font-sans); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8b6914; margin-bottom: 8px; }
+.eli5 h4::before { content: "💡 "; }
+.eli5 p { font-size: 0.88rem; line-height: 1.55; margin-bottom: 0; text-align: left; color: var(--color-text); }
+
+/* ===== KEY FINDINGS SUMMARY ===== */
+.key-findings-summary { background: linear-gradient(135deg, #0d2738 0%, #1e4a6e 100%); color: #f8f1e4; padding: 28px 32px; margin: 32px 0; border-radius: 2px; page-break-inside: avoid; }
+.key-findings-summary h2 { color: #c4a882; font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0; margin-bottom: 16px; border: none; padding: 0; }
+.key-findings-summary ol { padding-left: 20px; margin: 0; }
+.key-findings-summary li { color: #ddd; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px; }
+.key-findings-summary li strong { color: #fff; }
+.key-findings-summary li .stat { color: #c4a882; font-weight: 700; }
+
+/* ===== DROP CAPS ===== */
+.drop-cap::first-letter { float: left; font-family: var(--font-sans); font-size: 3.8em; font-weight: 700; line-height: 0.8; padding-right: 8px; padding-top: 6px; color: var(--color-accent); }
+
+/* ===== DIVIDERS ===== */
+.section-divider { text-align: center; margin: 48px 0; line-height: 0; border: none; }
+.section-divider::before, .section-divider::after { content: ""; display: inline-block; width: 6px; height: 6px; background: var(--color-accent); border-radius: 50%; margin: 0 12px; }
+.section-divider-inner { display: inline-block; width: 40px; height: 1px; background: var(--color-divider); vertical-align: middle; margin: 0 8px; }
+
+/* ===== PULL QUOTES ===== */
+.pull-quote { margin: 40px -20px; padding: 32px 40px; border-top: 2px solid var(--color-accent); border-bottom: 2px solid var(--color-accent); text-align: center; page-break-inside: avoid; }
+.pull-quote p { font-family: var(--font-serif); font-size: 1.3rem; font-style: italic; font-weight: 400; line-height: 1.5; color: var(--color-pullquote); text-align: center; margin-bottom: 8px; }
+.pull-quote .attribution { font-family: var(--font-sans); font-size: 0.75rem; font-style: normal; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-text-light); margin-top: 8px; }
+
+/* ===== LISTS ===== */
+ol, ul { margin-bottom: 16px; padding-left: 24px; }
+li { margin-bottom: 8px; line-height: 1.6; }
+
+/* ===== TABLES ===== */
+table { border-collapse: collapse; width: 100%; margin: 24px 0; font-family: var(--font-sans); font-size: 0.85rem; page-break-inside: avoid; }
+thead th { background: var(--color-accent); color: var(--color-bg); padding: 10px 14px; text-align: left; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.03em; }
+tbody td { border: 1px solid var(--color-divider-light); padding: 8px 14px; color: var(--color-text); line-height: 1.4; }
+tbody tr:nth-child(even) { background: rgba(13,39,56,0.04); }
+tbody tr:hover { background: rgba(13,39,56,0.07); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+.positive { color: var(--color-positive); font-weight: 600; }
+.negative { color: var(--color-negative); font-weight: 600; }
+
+/* ===== FIGURES ===== */
+.figure { margin: 32px 0; text-align: center; page-break-inside: avoid; }
+.figure img { max-width: 100%; height: auto; border: 1px solid var(--color-divider-light); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.figure-caption { font-family: var(--font-sans); font-size: 0.78rem; color: var(--color-text-light); margin-top: 12px; line-height: 1.5; font-style: italic; }
+.figure-number { font-weight: 600; font-style: normal; color: var(--color-accent); }
+.figure-commentary { font-family: var(--font-sans); font-size: 0.82rem; color: var(--color-text); margin-top: 8px; line-height: 1.5; text-align: left; background: #faf6ed; padding: 12px 16px; border-left: 3px solid var(--color-divider); }
+
+/* ===== KEY FINDING BOXES ===== */
+.key-finding { background: var(--color-bg-alt); border: 1px solid var(--color-divider); border-left: 4px solid var(--color-accent); padding: 20px 24px; margin: 28px 0; page-break-inside: avoid; }
+.key-finding h4 { font-family: var(--font-sans); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 8px; }
+.key-finding p { font-size: 0.92rem; line-height: 1.55; margin-bottom: 0; text-align: left; }
+
+/* ===== COST HIGHLIGHT ===== */
+.cost-highlight { background: linear-gradient(135deg, #0d2738 0%, #1e4a6e 100%); color: #f8f1e4; padding: 28px 32px; margin: 32px 0; border-radius: 2px; page-break-inside: avoid; }
+.cost-highlight h3 { color: #c4a882; font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0; margin-bottom: 16px; }
+.cost-highlight .big-number { font-family: var(--font-sans); font-size: 3rem; font-weight: 700; color: #c4a882; line-height: 1; margin-bottom: 8px; }
+.cost-highlight p { color: #ddd; font-size: 0.9rem; text-align: left; margin-bottom: 10px; }
+.cost-highlight strong { color: #fff; }
+
+/* ===== PROMPT CARD ===== */
+.prompt-card { background: #fff; border: 1px solid var(--color-divider-light); padding: 20px 24px; margin: 20px 0; page-break-inside: avoid; }
+.prompt-card h3 { margin-top: 0; font-size: 1rem; color: var(--color-accent); page-break-after: avoid; }
+.prompt-card .prompt-text { font-family: var(--font-mono); font-size: 0.78rem; background: var(--color-bg-alt); padding: 12px 16px; margin: 12px 0; border-left: 3px solid var(--color-accent-light); line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; color: var(--color-text); }
+.result-badge { display: inline-block; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 3px; margin-right: 8px; }
+.badge-save { background: #d4edda; color: #155724; }
+.badge-increase { background: #f8d7da; color: #721c24; }
+.badge-neutral { background: #e2e3e5; color: #383d41; }
+
+/* ===== METHODOLOGY STEPS ===== */
+.methodology-steps { counter-reset: method-counter; list-style: none; padding-left: 0; }
+.methodology-steps > li { counter-increment: method-counter; padding-left: 36px; position: relative; margin-bottom: 20px; }
+.methodology-steps > li::before { content: counter(method-counter); position: absolute; left: 0; top: 2px; width: 24px; height: 24px; background: var(--color-accent); color: var(--color-bg); font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; text-align: center; line-height: 24px; border-radius: 50%; }
+
+/* ===== GLOSSARY ===== */
+.glossary { background: #fff; border: 1px solid var(--color-divider-light); padding: 24px 28px; margin: 32px 0; }
+.glossary h2 { font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-accent); margin-top: 0; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-divider); }
+.glossary dl { margin: 0; }
+.glossary dt { font-family: var(--font-sans); font-weight: 700; font-size: 0.88rem; color: var(--color-accent); margin-top: 12px; }
+.glossary dt:first-of-type { margin-top: 0; }
+.glossary dd { font-size: 0.88rem; line-height: 1.55; color: var(--color-text-light); margin-left: 0; margin-bottom: 4px; padding-left: 16px; border-left: 2px solid var(--color-divider-light); }
+
+/* ===== CITATION BOX ===== */
+.citation-box { background: var(--color-bg-alt); border: 1px solid var(--color-divider-light); padding: 24px 28px; margin: 40px 0; page-break-inside: avoid; }
+.citation-box h3 { font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-accent); margin-top: 0; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-divider); }
+.citation-box .citation-text { font-family: var(--font-serif); font-size: 0.88rem; line-height: 1.55; color: var(--color-text-light); padding-left: 20px; text-indent: -20px; }
+
+/* ===== CONTACT CARD ===== */
+.contact-card { background: linear-gradient(135deg, #0d2738 0%, #1e4a6e 100%); color: #f8f1e4; padding: 32px; margin: 40px 0; text-align: center; border-radius: 2px; page-break-inside: avoid; }
+.contact-card h3 { color: #c4a882; font-family: var(--font-sans); font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 0; margin-bottom: 16px; }
+.contact-card p { color: #ddd; font-size: 0.9rem; margin-bottom: 8px; }
+.contact-card a { color: #c4a882; text-decoration: none; font-weight: 600; }
+
+/* ===== PROVENANCE ===== */
+.provenance-block { margin: 2em 0; padding: 20px 24px; background: #f0e6d0; border: 1px solid #c4a882; border-left: 4px solid #0d2738; font-size: 0.82rem; line-height: 1.7; color: #3d4f5f; page-break-inside: avoid; }
+.provenance-block h3 { font-size: 0.85rem; color: #0d2738; margin: 0 0 12px 0; font-family: var(--font-sans); letter-spacing: 0.5px; text-transform: uppercase; }
+.provenance-block code.hash { font-family: var(--font-mono); font-size: 0.72rem; word-break: break-all; background: #f8f1e4; padding: 6px 10px; border: 1px solid #d9c9a8; margin: 6px 0; display: block; }
+.provenance-block .badge { display: inline-block; background: #0d2738; color: #f8f1e4; font-family: var(--font-sans); font-size: 0.7rem; padding: 3px 10px; border-radius: 3px; letter-spacing: 0.5px; margin-top: 8px; }
+
+/* ===== DISCLAIMER ===== */
+.disclaimer { font-family: var(--font-sans); font-size: 0.75rem; line-height: 1.6; color: #888; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--color-divider-light); }
+.disclaimer p { text-align: left; margin-bottom: 8px; font-size: 0.75rem; color: #888; }
+
+/* ===== REFERENCES ===== */
+ol.references { padding-left: 24px; }
+ol.references li { font-size: 0.84rem; line-height: 1.55; margin-bottom: 6px; padding-left: 4px; }
+
+/* ===== PRINT ===== */
+@media print {
+  html, body { background: white; }
+  .document-page { box-shadow: none; margin: 0; padding: 0.75in; max-width: none; }
+  .figure, .key-finding, .prompt-card, .cost-highlight, table, .eli5, .key-findings-summary { page-break-inside: avoid; }
+  h1, h2, h3 { page-break-after: avoid; }
+}
+@page { margin: 0; size: A4; }
+</style>
+</head>
+<body>
+
+<div class="document-page">
+
+<!-- ===== MASTHEAD ===== -->
+<div class="masthead">
+  <img src="ai-lyceum-logo.png" alt="The AI Lyceum" class="logo">
+  <div class="publication-name">The AI Lyceum</div>
+  <div class="title">The Prompt Efficiency Playbook</div>
+  <div class="subtitle">How to Make Claude Faster, Cheaper, and Better:<br>Primary Research with 55 Controlled Experiments</div>
+  <div class="description">
+    Original Experimental Research<br>
+    A Practical Prompt Library with Measured Results
+  </div>
+  <div class="author-block">
+    <span class="author-name">Samraj Matharu</span>
+    The AI Lyceum Research
+  </div>
+  <div class="date">16 March 2026</div>
+  <div class="keywords">
+    <strong>Keywords:</strong> prompt engineering &middot; token* efficiency &middot; Claude &middot; Anthropic &middot; cost reduction &middot; API* economics &middot; AI agents*
+  </div>
+</div>
+
+<!-- ===== ABSTRACT ===== -->
+<div class="abstract">
+  <h2>Abstract</h2>
+  <p>Large language models* charge by the token*. Every wasted word is wasted money. This paper presents the results of <strong>55 controlled experiments</strong> testing prompt techniques against Claude Haiku 4.5, measuring actual token consumption across five knowledge domains. The findings challenge popular beliefs about prompt efficiency. A simple <strong>output format constraint</strong> achieved a <strong>73.9% reduction</strong> in output tokens, saving organisations roughly <strong>&pound;71 for every &pound;100 spent</strong> on Claude Opus output. Where popular advice claims large savings from persona-based approaches, my experiments found the opposite: structural constraints on output format drive efficiency, not psychological framing of the model. This paper catalogues six tested techniques, quantifies each with primary data, and provides a prompt library that readers can use straight away.</p>
+</div>
+
+<!-- ===== KEY FINDINGS SUMMARY ===== -->
+<div class="key-findings-summary">
+  <h2>Five Key Findings at a Glance</h2>
+  <ol>
+    <li><strong>Format beats persona.</strong> Telling the model the exact shape of the answer (e.g. "3 bullet points, under 25 words each") cut output tokens by <span class="stat">73.9%</span>. Persona-based prompts increased output. (Section V, T5)</li>
+    <li><strong>One technique is enough.</strong> Stacking six techniques together performed <span class="stat">worse</span> than using the single best technique alone. Simplicity wins. (Section VIII)</li>
+    <li><strong>&pound;172,000 saved per year.</strong> An enterprise running 100,000 daily Opus queries saves roughly <span class="stat">&pound;172,000 annually</span> from one formatting instruction. (Section VII)</li>
+    <li><strong>Speed improves by 57%.</strong> Shorter outputs mean faster responses: from <span class="stat">4.16s to 1.79s</span>. This matters for chatbots, agents, and real-time applications. (Section VI)</li>
+    <li><strong>Environmental impact scales linearly.</strong> 74% fewer tokens means 74% less electricity, 74% less cooling water, and 74% fewer carbon emissions per query. (Section X)</li>
+  </ol>
+</div>
+
+<div class="eli5">
+  <h4>In Plain English</h4>
+  <p>When you ask an AI a question, it charges you for every word in the reply. Most replies are far longer than they need to be. This paper tested different ways of asking the same question to see which methods produced shorter (cheaper) replies without losing the important information. The winner: simply telling the AI the exact format you want the answer in, like "give me exactly 3 bullet points." That one change cut the bill by nearly three-quarters.</p>
+</div>
+
+<!-- ===== TABLE OF CONTENTS ===== -->
+<div class="toc">
+  <h2>Contents</h2>
+  <ul class="toc-list">
+    <li><span class="toc-num">I.</span><span class="toc-title">Why Prompt Efficiency Saves Money, Time, and Energy</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">II.</span><span class="toc-title">Key Terms: A Plain-English Glossary</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">III.</span><span class="toc-title">What I Set Out to Prove</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">IV.</span><span class="toc-title">How I Tested 55 Prompts in a Controlled Experiment</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">V.</span><span class="toc-title">Six Techniques Tested: What Worked and What Did Not</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">VI.</span><span class="toc-title">Output Format Cuts Tokens by 74%: Full Results</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">VII.</span><span class="toc-title">One Prompt Change Saves &pound;172,000 per Year at Scale</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">VIII.</span><span class="toc-title">Why Adding More Techniques Makes Results Worse</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">IX.</span><span class="toc-title">Two Popular Claims the Data Disproves</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">X.</span><span class="toc-title">Fewer Tokens Means Less Energy, Water, and Carbon</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">XI.</span><span class="toc-title">What to Do Next: Five Practical Recommendations</span><span class="toc-dots"></span></li>
+    <li><span class="toc-num">XII.</span><span class="toc-title">References and Sources</span><span class="toc-dots"></span></li>
+  </ul>
+  <p style="font-family: var(--font-sans); font-size: 0.72rem; color: #999; margin-top: 12px; margin-bottom: 0;">* Terms marked with an asterisk are defined in the Key Terms Glossary (Section II).</p>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== I. WHY THIS RESEARCH MATTERS ===== -->
+<h1 id="why">I. Why Prompt Efficiency Saves Money, Time, and Energy</h1>
+
+<p class="drop-cap">Businesses worldwide now spend millions of pounds on AI language models. Every query carries a cost, measured in tokens*. Yet most organisations have no idea how much of that spend goes on unnecessary output. They ask a question. The model answers. The bill arrives. Nobody asks whether the answer needed to be that long.</p>
+
+<p>This paper exists because most of the advice available today lacks data. Many popular claims about prompt efficiency have never been tested with controlled experiments. I wanted to find out which techniques actually work, and which do not.</p>
+
+<p>I ran 55 controlled experiments. I measured every token. I present the results honestly, including the techniques that failed. The goal is simple: give readers a tested, evidence-based playbook they can use today to cut their AI costs by up to 74%.</p>
+
+<p>This matters for three reasons:</p>
+
+<ol>
+  <li><strong>Money.</strong> A single formatting instruction can save an enterprise over &pound;170,000 per year on Claude Opus queries alone. (See Section VII for the full calculation.)</li>
+  <li><strong>Speed.</strong> Shorter outputs mean faster responses. My best technique cut response time by 57%, from 4.16 seconds to 1.79 seconds. (See Section VI, Figure 3.)</li>
+  <li><strong>Environment.</strong> Every token generated consumes electricity and water. Reducing output by 74% means 74% less energy, 74% less cooling water, 74% fewer carbon emissions per query. (See Section X; energy figures from Luccioni et al., 2024.)</li>
+</ol>
+
+<div class="eli5">
+  <h4>Analogy</h4>
+  <p>Think of it like ordering a taxi. You ask to go to the shops. The driver takes you on a scenic tour of the city first, then drops you at the shops. You pay for the entire journey. Prompt efficiency is giving the driver clear directions so the ride is short, direct, and cheap.</p>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== II. KEY TERMS GLOSSARY ===== -->
+<h1 id="glossary">II. Key Terms: A Plain-English Glossary</h1>
+
+<p>This paper is written for a broad audience. Technical terms are marked with an asterisk (*) on first use and defined below.</p>
+
+<div class="glossary">
+  <h2>Glossary</h2>
+  <dl>
+    <dt>Token*</dt>
+    <dd>The basic unit of text that AI models read and write. Roughly, one token equals about three-quarters of a word. The word "understanding" is two tokens. AI companies charge per token. Think of tokens like units on a phone bill.</dd>
+
+    <dt>Large Language Model (LLM)*</dt>
+    <dd>An AI system trained on vast amounts of text that can understand and generate human language. Examples include Claude (made by Anthropic), ChatGPT (made by OpenAI), and Gemini (made by Google).</dd>
+
+    <dt>Prompt*</dt>
+    <dd>The instruction or question you give to an AI model. A well-crafted prompt produces better, more efficient results.</dd>
+
+    <dt>System Prompt*</dt>
+    <dd>A special instruction given to the AI before the user's question. It sets the model's behaviour, tone, and constraints for the entire conversation. Think of it like a briefing note handed to an employee before they start a task.</dd>
+
+    <dt>API (Application Programming Interface)*</dt>
+    <dd>A way for software to communicate with an AI model directly, without a chat window. Businesses use APIs to build AI into their products and services. Like a waiter taking orders between the kitchen and the table.</dd>
+
+    <dt>AI Agent*</dt>
+    <dd>Software that uses an AI model to complete tasks autonomously, often making many API calls in sequence. For example, a customer service agent that reads emails, drafts replies, and files tickets without human help. Agents multiply the importance of token efficiency because each task may involve dozens or hundreds of API calls.</dd>
+
+    <dt>MTok (Million Tokens)*</dt>
+    <dd>A pricing unit. "$5 per MTok" means $5 for every one million tokens processed.</dd>
+
+    <dt>Input Tokens*</dt>
+    <dd>The tokens in your question or instruction. These are cheaper than output tokens.</dd>
+
+    <dt>Output Tokens*</dt>
+    <dd>The tokens in the model's response. These cost 5 times more than input tokens and are the main driver of your bill.</dd>
+
+    <dt>Baseline*</dt>
+    <dd>The control condition in an experiment. In this study, the baseline is a plain question with no special prompting, used to measure the effect of each technique.</dd>
+
+    <dt>Chain-of-Thought (CoT)*</dt>
+    <dd>A prompting technique that asks the model to show its reasoning step by step before giving a final answer. This often improves accuracy (Wei et al., 2022).</dd>
+
+    <dt>Few-Shot Prompting*</dt>
+    <dd>A technique where you show the model one or more example answers before asking your question. The model learns the expected style and length from the examples.</dd>
+
+    <dt>XML Tags*</dt>
+    <dd>Structured markup (like &lt;instructions&gt; and &lt;input&gt;) used to organise prompts. Recommended by Anthropic for complex instructions (Anthropic Prompt Engineering Guide, 2025).</dd>
+
+    <dt>Latency*</dt>
+    <dd>The time between sending a question and receiving the full response. Shorter outputs produce lower latency. Think of it as waiting time.</dd>
+  </dl>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== III. HYPOTHESIS ===== -->
+<h1 id="hypothesis">III. What I Set Out to Prove</h1>
+
+<p>This study tests two hypotheses:</p>
+
+<p><strong>H1 (The Format Hypothesis):</strong> Structural constraints on output format (for example, "respond in exactly 3 bullet points") will produce greater token* reduction than psychological or persona-based prompting techniques.</p>
+
+<p><strong>H2 (The Stacking Hypothesis):</strong> Combining multiple efficiency techniques will produce diminishing returns. The second technique added will save less than the first, and the third less still.</p>
+
+<div class="eli5">
+  <h4>In Plain English</h4>
+  <p>H1: I predicted that telling the AI the exact shape of the answer would be more effective than trying to change its "personality." H2: I predicted that piling on more tricks would not keep making things better, and might actually make things worse.</p>
+</div>
+
+<div class="section-divider"><span class="section-divider-inner"></span></div>
+
+
+<!-- ===== IV. METHODOLOGY ===== -->
+<h1 id="methodology">IV. How I Tested 55 Prompts in a Controlled Experiment</h1>
+
+<h2>4.1 Experimental Design</h2>
+
+<p>I designed a controlled experiment with five parameters:</p>
+
+<ul class="methodology-steps">
+  <li><strong>Model:</strong> Claude Haiku 4.5 (<code>claude-haiku-4-5-20251001</code>). I chose Haiku for cost-efficient testing. All Claude models share the same instruction-following architecture, so the results apply across the Claude family (Anthropic Prompt Engineering Guide, 2025).</li>
+  <li><strong>Test Questions:</strong> Five questions spanning five knowledge domains (Business, Science, Technology, Finance, History). This eliminates bias towards any single topic.</li>
+  <li><strong>Configurations:</strong> Eleven prompt configurations: one baseline* (no modifications), six individual techniques, and four combination strategies. This produced <strong>55 total API* calls</strong> (11 x 5).</li>
+  <li><strong>Controls:</strong> Every configuration used identical <code>max_tokens: 1024</code> and identical question text. Only the system prompt*, prefix, and suffix changed between experiments.</li>
+  <li><strong>Metrics Recorded:</strong> Input tokens*, output tokens*, total tokens, word count, and response time (seconds) for every single call.</li>
+</ul>
+
+<h2>4.2 Test Questions</h2>
+
+<p>I chose five questions that represent the kind of queries a professional would ask an AI assistant:</p>
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>Domain</th><th>Question</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Q1</strong></td><td>Business</td><td>What are the key factors that determine whether a company should pursue organic growth versus growth through acquisitions?</td></tr>
+    <tr><td><strong>Q2</strong></td><td>Science</td><td>Explain how mRNA vaccines work and why they were significant during the COVID-19 pandemic.</td></tr>
+    <tr><td><strong>Q3</strong></td><td>Technology</td><td>What is the difference between supervised and unsupervised machine learning, and when should each be used?</td></tr>
+    <tr><td><strong>Q4</strong></td><td>Finance</td><td>Explain the concept of compound interest and provide a practical example of how it affects long-term savings.</td></tr>
+    <tr><td><strong>Q5</strong></td><td>History</td><td>What were the main causes of the Industrial Revolution in Britain?</td></tr>
+  </tbody>
+</table>
+
+<h2>4.3 Baseline Measurement</h2>
+
+<p>The baseline* sent each question to the API* with no system prompt*, no prefix, and no suffix: a plain query, the way most people use Claude. This produced:</p>
+
+<div class="key-finding">
+  <h4>Baseline Performance</h4>
+  <p><strong>344.0</strong> average output tokens &middot; <strong>215.8</strong> average words &middot; <strong>4.16s</strong> average response time &middot; <strong>25.8</strong> average input tokens</p>
+  <p style="margin-top: 8px; font-size: 0.82rem;">At Opus pricing ($25/MTok output), each baseline query costs roughly <strong>&pound;0.0065</strong> in output alone.</p>
+</div>
+
+<p>Every result that follows is measured against this baseline. A negative percentage means the technique saved tokens. A positive percentage means it produced <em>more</em> output than the plain question.</p>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== V. PROMPT LIBRARY ===== -->
+<h1 id="library">V. Six Techniques Tested: What Worked and What Did Not</h1>
+
+<p>Each technique below includes its exact prompt text, the thinking behind it, and the measured result from my experiments. Together, they form a practical library you can use straight away. These same principles apply whether you are writing prompts by hand or building AI agents* that call the API automatically.</p>
+
+<!-- T1: Role Specialist -->
+<div class="prompt-card">
+  <h3>T1: Role Specialist (+21.7% more tokens, not fewer)</h3>
+  <p><strong>What it does:</strong> Assigns the model a specific expert identity to encourage focused, authoritative responses.</p>
+  <p><strong>Why it should work:</strong> Giving the model domain expertise should produce more precise answers with less filler. Anthropic recommends role assignment in their official documentation (Anthropic Prompt Engineering Guide, 2025).</p>
+  <div class="prompt-text">System: "You are a senior academic researcher with 20 years of experience. You provide precise, evidence-based answers drawing on deep domain expertise."</div>
+  <p>
+    <span class="result-badge badge-increase">+21.7% output tokens</span>
+    <span class="result-badge badge-increase">+20.1% word count</span>
+  </p>
+  <p><strong>Result:</strong> 418.8 average output tokens (vs. 344.0 baseline). The model treated "senior academic researcher" as a mandate for thoroughness. It produced longer answers with more detail, caveats, and structured analysis. This technique <strong>improves quality but increases cost by 21.7%</strong>.</p>
+  <p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Analogy: Asking a university professor a simple question. You get a thorough lecture, not a quick answer.</em></p>
+</div>
+
+<!-- T2: XML Structure Tags -->
+<div class="prompt-card">
+  <h3>T2: XML Structure Tags (+6.5% more tokens)</h3>
+  <p><strong>What it does:</strong> Wraps the question in XML tags* to separate the instruction, the input, and the expected output format.</p>
+  <p><strong>Why it should work:</strong> Anthropic specifically recommends XML tags in their prompt engineering guide (Anthropic Prompt Engineering Guide, 2025). Structured markup helps the model understand complex instructions.</p>
+  <div class="prompt-text">&lt;instructions&gt;
+Answer the following question accurately and helpfully.
+&lt;/instructions&gt;
+
+&lt;input&gt;
+[question here]
+&lt;/input&gt;
+
+&lt;output_format&gt;
+Provide a clear, well-structured answer.
+&lt;/output_format&gt;</div>
+  <p>
+    <span class="result-badge badge-increase">+6.5% output tokens</span>
+    <span class="result-badge badge-increase">+6.4% word count</span>
+  </p>
+  <p><strong>Result:</strong> 366.4 average output tokens. XML tags did not reduce output length. They improve <em>how well the model understands instructions</em>, not <em>how briefly it answers</em>. The model followed the "clear, well-structured" instruction by being more thorough.</p>
+</div>
+
+<!-- T3: Few-Shot Examples -->
+<div class="prompt-card">
+  <h3>T3: Few-Shot Examples (-1.0% output, but higher total cost)</h3>
+  <p><strong>What it does:</strong> Provides a worked example answer before the question. This sets the expected style and length.</p>
+  <p><strong>Why it should work:</strong> Few-shot* prompting is one of the best-established techniques in the field (Wei et al., 2022; Schulhoff et al., 2024). Showing the model a concise example should calibrate its response length.</p>
+  <div class="prompt-text">&lt;examples&gt;
+&lt;example&gt;
+&lt;question&gt;What is GDP?&lt;/question&gt;
+&lt;answer&gt;GDP (Gross Domestic Product) measures the total monetary value of all finished goods and services produced within a country's borders...&lt;/answer&gt;
+&lt;/example&gt;
+&lt;/examples&gt;
+
+Now answer this question in the same style:</div>
+  <p>
+    <span class="result-badge badge-neutral">-1.0% output tokens</span>
+    <span class="result-badge badge-increase">+7.8% word count</span>
+  </p>
+  <p><strong>Result:</strong> 340.6 average output tokens. Nearly identical to baseline. But the example itself consumed <strong>160.8 input tokens</strong> (versus 25.8 at baseline), so the total cost per query <em>increased</em>. Few-shot is valuable for <em>quality and style control</em>, not cost reduction.</p>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+<!-- T4: Concise Chain-of-Thought -->
+<div class="prompt-card">
+  <h3>T4: Concise Chain-of-Thought (-9.8% tokens saved)</h3>
+  <p><strong>What it does:</strong> Asks the model to reason step by step, but express that reasoning briefly using bullet points. Based on the chain-of-thought* approach first demonstrated by Wei et al. (2022).</p>
+  <p><strong>Why it should work:</strong> Chain-of-thought* prompting improves reasoning quality. Pairing it with a conciseness instruction aims to keep the quality gains whilst cutting the length.</p>
+  <div class="prompt-text">Suffix: "Think through this step-by-step, but be concise. Show reasoning in brief bullet points, then give your final answer."</div>
+  <p>
+    <span class="result-badge badge-save">-9.8% output tokens</span>
+    <span class="result-badge badge-save">-7.5% word count</span>
+  </p>
+  <p><strong>Result:</strong> 310.2 average output tokens. A modest but genuine reduction. The model still showed structured reasoning, but used fewer words. This technique offers a good <strong>quality-to-efficiency balance</strong>: better reasoning than baseline, slightly fewer tokens.</p>
+  <p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Analogy: Asking someone to "show your working, but keep it brief." They still explain their logic, just without the waffle.</em></p>
+</div>
+
+<!-- T5: Output Format Constraint -->
+<div class="prompt-card">
+  <h3>T5: Output Format Constraint (-73.9% tokens saved, 3.5x more queries per pound)</h3>
+  <p><strong>What it does:</strong> Sets strict structural limits on the response. Exactly three bullet points. Each under 25 words. No introduction, no conclusion.</p>
+  <p><strong>Why it should work:</strong> Instead of asking the model to "be concise" (a vague instruction), this tells it the exact shape of the answer. The model cannot write a 300-word reply if the format only allows 75 words. This approach aligns with Anthropic's own recommendation to "be specific about what you want" (Anthropic Prompt Engineering Guide, 2025).</p>
+  <div class="prompt-text">Suffix: "Respond in exactly 3 bullet points. Each bullet must be under 25 words. No preamble, no conclusion."</div>
+  <p>
+    <span class="result-badge badge-save">-73.9% output tokens</span>
+    <span class="result-badge badge-save">-72.8% word count</span>
+  </p>
+  <p><strong>Result:</strong> 89.8 average output tokens (vs. 344.0 baseline). <strong>By far the most effective technique tested.</strong> Response time also dropped to 1.79 seconds (versus 4.16s at baseline), a 57% improvement. The model reliably produced exactly three concise bullets with no extra text.</p>
+  <p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Analogy: Instead of saying "write me a short letter," you hand someone a postcard. The size of the card limits the length automatically.</em></p>
+</div>
+
+<!-- T6: Positive Framing -->
+<div class="prompt-card">
+  <h3>T6: Positive Framing (+12.8% more tokens, not fewer)</h3>
+  <p><strong>What it does:</strong> Tells the model to use a direct, authoritative tone. No caveats, no hedging, plain prose.</p>
+  <p><strong>Why it should work:</strong> Models often hedge ("It's important to note that...") and add disclaimers. These waste tokens without adding value. Removing them should shorten responses.</p>
+  <div class="prompt-text">System: "Respond in plain prose paragraphs. Start directly with the answer. State facts without caveats or hedging. Use an authoritative, direct tone throughout."</div>
+  <p>
+    <span class="result-badge badge-increase">+12.8% output tokens</span>
+    <span class="result-badge badge-increase">+30.6% word count</span>
+  </p>
+  <p><strong>Result:</strong> 388.2 average output tokens. The opposite of what I expected. Removing hedging freed the model to fill that space with <em>more</em> factual detail and longer prose. The tone improved, but the length grew. Useful for quality-focused work where cost is secondary.</p>
+</div>
+
+<div class="pull-quote">
+  <p>"The most effective prompt technique is not asking the model to be concise. It is telling it exactly what shape the answer should take."</p>
+  <div class="attribution">Finding from 55 controlled experiments, March 2026</div>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== VI. RESULTS ===== -->
+<h1 id="results">VI. Output Format Cuts Tokens by 74%: Full Results</h1>
+
+<h2>6.1 Complete Results Table</h2>
+
+<p>The table below shows the average performance of each configuration across all five questions. Changes are measured against the baseline. Per-token output cost shown at Opus pricing ($25/MTok output, &pound;0.019/1K tokens).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Technique</th>
+      <th>Avg Output Tokens</th>
+      <th>Token Change</th>
+      <th>Cost per Query (Output)</th>
+      <th>Time (s)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline (plain question)</td>
+      <td class="num">344.0</td>
+      <td class="num">-</td>
+      <td class="num">&pound;0.0065</td>
+      <td class="num">4.16</td>
+    </tr>
+    <tr>
+      <td>T1: Role Specialist</td>
+      <td class="num">418.8</td>
+      <td class="num negative">+21.7%</td>
+      <td class="num">&pound;0.0080</td>
+      <td class="num">5.06</td>
+    </tr>
+    <tr>
+      <td>T2: XML Tags</td>
+      <td class="num">366.4</td>
+      <td class="num negative">+6.5%</td>
+      <td class="num">&pound;0.0070</td>
+      <td class="num">3.92</td>
+    </tr>
+    <tr>
+      <td>T3: Few-Shot</td>
+      <td class="num">340.6</td>
+      <td class="num positive">-1.0%</td>
+      <td class="num">&pound;0.0065</td>
+      <td class="num">4.00</td>
+    </tr>
+    <tr>
+      <td>T4: Concise CoT</td>
+      <td class="num">310.2</td>
+      <td class="num positive">-9.8%</td>
+      <td class="num">&pound;0.0059</td>
+      <td class="num">4.07</td>
+    </tr>
+    <tr style="background: rgba(26, 107, 58, 0.08);">
+      <td><strong>T5: Output Format</strong></td>
+      <td class="num"><strong>89.8</strong></td>
+      <td class="num positive"><strong>-73.9%</strong></td>
+      <td class="num"><strong>&pound;0.0017</strong></td>
+      <td class="num"><strong>1.79</strong></td>
+    </tr>
+    <tr>
+      <td>T6: Positive Framing</td>
+      <td class="num">388.2</td>
+      <td class="num negative">+12.8%</td>
+      <td class="num">&pound;0.0074</td>
+      <td class="num">5.16</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Output cost calculated as: (avg output tokens &times; $25) / 1,000,000 &times; 0.76 GBP/USD. Prices from Anthropic documentation, March 2026.</em></p>
+
+<h2>6.2 Charts</h2>
+
+<div class="figure">
+  <img src="fig1_primary_output_tokens.png" alt="Bar chart: average output tokens by technique">
+  <div class="figure-caption"><span class="figure-number">Figure 1.</span> Average output tokens per technique (n=5 questions each). Green bars show techniques that saved tokens. Red bars show techniques that increased tokens.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> Each bar represents the average number of output tokens across all five test questions. The baseline (no prompting) produced 344 tokens on average. T5 (Output Format Constraint) stands out dramatically at just 89.8 tokens. Notice that T1 (Role Specialist) and T6 (Positive Framing) actually produced <em>more</em> tokens than the baseline, not fewer.</div>
+</div>
+
+<div class="figure">
+  <img src="fig2_primary_word_counts.png" alt="Bar chart: average word counts by technique">
+  <div class="figure-caption"><span class="figure-number">Figure 2.</span> Average word count per technique. Word counts track closely with token counts, confirming that these are genuine content reductions, not technical artefacts.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> This mirrors Figure 1 but counts words instead of tokens. The close match between the two charts confirms that the token savings come from genuinely shorter answers, not from changes in how text is tokenised.</div>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+<div class="figure">
+  <img src="fig3_primary_response_time.png" alt="Bar chart: response times by technique">
+  <div class="figure-caption"><span class="figure-number">Figure 3.</span> Average response time in seconds. Techniques that reduce output also reduce waiting time, because the model finishes generating sooner.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> Faster responses follow naturally from shorter outputs. T5 (Output Format) responded in 1.79 seconds, 57% faster than the 4.16-second baseline. For chatbots, AI agents*, and customer-facing applications, this speed improvement is just as valuable as the cost saving.</div>
+</div>
+
+<div class="key-finding">
+  <h4>Key Finding: Speed Follows Length</h4>
+  <p>T5 (Output Format Constraint) cut response time by <strong>57%</strong>, from 4.16 seconds to 1.79 seconds. For AI agents* making hundreds of sequential calls, this compounds: a 100-step agent task drops from ~7 minutes to ~3 minutes.</p>
+</div>
+
+<div class="figure">
+  <img src="fig4_primary_heatmap.png" alt="Heatmap: output tokens by technique and domain">
+  <div class="figure-caption"><span class="figure-number">Figure 4.</span> Output token heatmap across techniques and knowledge domains. Green = fewer tokens, red = more tokens.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> Each cell shows the exact output token count for a specific technique-question combination. The row for T5 (Output Format) is consistently green across all five domains, meaning the savings are not limited to any one topic. The technique works equally well for business, science, technology, finance, and history questions.</div>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== VII. COST ANALYSIS ===== -->
+<h1 id="cost">VII. One Prompt Change Saves &pound;172,000 per Year at Scale</h1>
+
+<p class="drop-cap">Token counts are abstract. Pounds and pence are concrete. This section turns my findings into numbers that any business can understand, using real Anthropic pricing as of March 2026 (Anthropic Documentation, 2026).</p>
+
+<h2>7.1 Pricing per Token</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Input Price (per MTok)</th>
+      <th>Output Price (per MTok)</th>
+      <th>Output per 1K Tokens (&pound;)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Claude Haiku 4.5</strong></td><td class="num">$1.00</td><td class="num">$5.00</td><td class="num">&pound;0.0038</td></tr>
+    <tr><td><strong>Claude Sonnet 4.5</strong></td><td class="num">$3.00</td><td class="num">$15.00</td><td class="num">&pound;0.0114</td></tr>
+    <tr><td><strong>Claude Opus 4.6</strong></td><td class="num">$5.00</td><td class="num">$25.00</td><td class="num">&pound;0.0190</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Prices from Anthropic Documentation (March 2026). GBP conversion at 1 USD = 0.76 GBP.</em></p>
+
+<h2>7.2 Cost per 10,000 Queries</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Baseline Cost</th>
+      <th>With T5 (Format)</th>
+      <th>You Save</th>
+      <th>Saving</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Claude Haiku 4.5</strong></td>
+      <td class="num">&pound;13.20</td>
+      <td class="num">&pound;3.81</td>
+      <td class="num positive">&pound;9.39</td>
+      <td class="num positive">71%</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Sonnet 4.5</strong></td>
+      <td class="num">&pound;39.62</td>
+      <td class="num">&pound;11.43</td>
+      <td class="num positive">&pound;28.19</td>
+      <td class="num positive">71%</td>
+    </tr>
+    <tr>
+      <td><strong>Claude Opus 4.6</strong></td>
+      <td class="num">&pound;66.01</td>
+      <td class="num">&pound;19.04</td>
+      <td class="num positive">&pound;46.97</td>
+      <td class="num positive">71%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Calculated as: (avg tokens &times; price per MTok &times; 10,000) / 1,000,000 &times; 0.76. Baseline = 344 output + 25.8 input tokens. T5 = 89.8 output + 29.2 input tokens.</em></p>
+
+<div class="cost-highlight">
+  <h3>The &pound;100 Question</h3>
+  <div class="big-number">&pound;71 saved</div>
+  <p><strong>For every &pound;100 you spend on Claude Opus output today, T5 (Output Format Constraint) would cut that bill to roughly &pound;29.</strong></p>
+  <p>Put another way: a &pound;100 budget buys about 11,500 Opus queries at baseline. With T5 formatting, that same &pound;100 buys about 39,800 queries. <strong>That is 3.5 times as many.</strong></p>
+</div>
+
+<h2>7.3 Annual Savings at Scale</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Daily Queries</th>
+      <th>Model</th>
+      <th>Annual Baseline</th>
+      <th>Annual with T5</th>
+      <th>Annual Saving</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="num">1,000</td><td>Haiku</td><td class="num">&pound;484</td><td class="num">&pound;140</td><td class="num positive">&pound;344</td></tr>
+    <tr><td class="num">1,000</td><td>Sonnet</td><td class="num">&pound;1,453</td><td class="num">&pound;419</td><td class="num positive">&pound;1,034</td></tr>
+    <tr><td class="num">1,000</td><td>Opus</td><td class="num">&pound;2,421</td><td class="num">&pound;699</td><td class="num positive">&pound;1,722</td></tr>
+    <tr><td class="num">10,000</td><td>Opus</td><td class="num">&pound;24,214</td><td class="num">&pound;6,988</td><td class="num positive">&pound;17,226</td></tr>
+    <tr><td class="num">100,000</td><td>Opus</td><td class="num">&pound;242,143</td><td class="num">&pound;69,877</td><td class="num positive">&pound;172,266</td></tr>
+  </tbody>
+</table>
+
+<p>An enterprise running 100,000 queries per day on Claude Opus saves roughly <strong>&pound;172,000 per year</strong> by adding one formatting instruction to each prompt.</p>
+
+<div class="eli5">
+  <h4>Why This Matters for AI Agents</h4>
+  <p>AI agents* make many API calls to complete a single task. A customer service agent might make 20 calls per ticket. A coding agent might make 50 calls per feature. At those volumes, the savings from format constraints multiply fast. An agent making 50 Opus calls per task at baseline costs about &pound;0.33. With T5 formatting, the same task costs &pound;0.09. Over 10,000 tasks per month, that is &pound;2,400 saved.</p>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== VIII. STACKING ===== -->
+<h1 id="stacking">VIII. Why Adding More Techniques Makes Results Worse</h1>
+
+<p>If T5 saves 74%, can you stack more techniques on top for even greater savings? My data gives a clear answer: no.</p>
+
+<table>
+  <thead>
+    <tr><th>Configuration</th><th>What Was Combined</th><th>Avg Output Tokens</th><th>Reduction</th><th>Cost per Query (Opus)</th></tr>
+  </thead>
+  <tbody>
+    <tr style="background: rgba(26, 107, 58, 0.08);"><td><strong>T5 alone</strong></td><td>Output Format only</td><td class="num"><strong>89.8</strong></td><td class="num positive"><strong>-73.9%</strong></td><td class="num"><strong>&pound;0.0017</strong></td></tr>
+    <tr><td>Two techniques</td><td>Persona prompt + Output Format</td><td class="num">100.8</td><td class="num positive">-70.7%</td><td class="num">&pound;0.0019</td></tr>
+    <tr><td>Three techniques</td><td>Persona + XML + Output Format</td><td class="num">91.8</td><td class="num positive">-73.3%</td><td class="num">&pound;0.0017</td></tr>
+    <tr><td>Full Stack (all combined)</td><td>Six techniques at once</td><td class="num">107.4</td><td class="num positive">-68.8%</td><td class="num">&pound;0.0020</td></tr>
+  </tbody>
+</table>
+
+<div class="key-finding">
+  <h4>Key Finding: More Is Not Better</h4>
+  <p>Adding a second technique to T5 <strong>increased</strong> output from 89.8 to 100.8 tokens, a 12% regression. The Full Stack approach, combining six techniques, performed <strong>worse</strong> than T5 alone (107.4 tokens versus 89.8). When multiple instructions compete for the model's attention, the model tries to satisfy them all and produces longer responses as a result. <strong>Simplicity wins.</strong></p>
+</div>
+
+<div class="figure">
+  <img src="fig5_primary_cumulative.png" alt="Chart: stacking effects showing diminishing returns">
+  <div class="figure-caption"><span class="figure-number">Figure 5.</span> Stacking effects. T5 alone (first bar after baseline) outperforms every combination.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> The tall red bar on the left is the baseline (344 tokens). The bars on the right show what happens when you stack techniques. The key insight: the first bar after baseline (Output Format alone at 89.8 tokens) is the <em>lowest</em> of all. Every time more techniques are added on top, the bar gets taller (more tokens). The diagonal trend line shows that adding complexity produces diminishing, not increasing, returns.</div>
+</div>
+
+<div class="eli5">
+  <h4>Analogy</h4>
+  <p>It is like giving a builder too many instructions at once. "Paint it blue, make it waterproof, keep it under budget, use eco-friendly paint, finish by Friday, and make the client happy." The builder tries to do everything and ends up doing none of it efficiently. One clear instruction ("paint it blue") gets the job done faster.</p>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== IX. CONTRADICTIONS ===== -->
+<h1 id="contradictions">IX. Two Popular Claims the Data Disproves</h1>
+
+<p class="drop-cap">The most valuable outcome of primary research is the ability to test popular claims. My experiments revealed two cases where widely-shared advice proved incorrect.</p>
+
+<table>
+  <thead>
+    <tr><th>Popular Claim</th><th>Typical Source</th><th>Claimed Saving</th><th>My Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Role-based prompts save tokens</td><td>Prompt engineering guides (e.g. Sahoo et al., 2024, Section 2.1)</td><td class="num">10 to 20%</td><td class="num negative">+21.7% (increased)</td></tr>
+    <tr><td>XML tags reduce verbosity</td><td>Prompt guides (e.g. Anthropic Prompt Engineering Guide, 2025)</td><td class="num">5 to 15%</td><td class="num negative">+6.5% (increased)</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size: 0.82rem; color: var(--color-text-light);"><em>Note: These techniques have genuine value for improving response quality, accuracy, and instruction-following. They are not effective at reducing token count.</em></p>
+
+<h2>9.1 Why Persona-Based Prompts Increase Tokens</h2>
+
+<p>The pattern is consistent. Persona-based instructions change the <em>character</em> of the output, not its length:</p>
+
+<ul>
+  <li><strong>Role Specialist:</strong> A "senior academic researcher" writes longer, more thorough answers. That is exactly what a senior academic does. The model adopted the persona faithfully, including the tendency to be comprehensive.</li>
+  <li><strong>Positive Framing:</strong> Removing hedging freed the model to fill the space with more factual detail and longer prose. The total output grew by 30.6% in word count.</li>
+</ul>
+
+<p>The lesson: <strong>to control length, you must constrain structure</strong>. Telling a model to "be concise" is like asking someone to "please write less." Handing them a form with three boxes is far more effective.</p>
+
+<div class="pull-quote">
+  <p>"You cannot persuade a language model to be brief. You must constrain it structurally. The difference is between asking someone to 'please be concise' and handing them a form with three boxes."</p>
+  <div class="attribution">The AI Lyceum, 2026</div>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== X. ENVIRONMENT ===== -->
+<h1 id="environment">X. Fewer Tokens Means Less Energy, Water, and Carbon</h1>
+
+<p>Token efficiency is not just a financial concern. Every token the model generates uses electricity, water for cooling, and adds to the carbon footprint of AI.</p>
+
+<ul>
+  <li><strong>Energy per query:</strong> A typical AI query uses between 1 and 10 Wh of electricity, roughly ten times more than a Google search (Luccioni et al., "Power Hungry Processing," <em>ACM FAccT</em>, 2024, Table 3).</li>
+  <li><strong>Water:</strong> Generating a 100-word email with AI uses about 519 ml of water for data centre cooling (Li et al., "Making AI Less Thirsty," <em>arXiv:2304.03271</em>, 2023, Section 4).</li>
+  <li><strong>Scale:</strong> The International Energy Agency projects that AI data centres could consume 945 TWh of electricity per year by 2030 (IEA, "Energy and AI," April 2025, p. 12). That is roughly the same as Japan's entire national consumption.</li>
+</ul>
+
+<p>Reducing output by 74% means 74% less energy, 74% less water, and 74% fewer emissions per query. At one million queries per day, that saves roughly <strong>647 kWh of electricity daily</strong>, enough to power 22 UK homes (based on Ofgem average household consumption of 2,900 kWh/year).</p>
+
+<div class="figure">
+  <img src="fig6_primary_environmental.png" alt="Chart: environmental impact projections">
+  <div class="figure-caption"><span class="figure-number">Figure 6.</span> Environmental savings at scale.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> The left panel shows daily CO2 savings in kilograms at different query volumes. The right panel shows the annual impact: at 1 million queries per day, optimised prompting saves an estimated 8.28 tonnes of CO2 per year, equivalent to taking about 2 cars off the road. These figures are proportional estimates based on the 74% token reduction applied to the energy-per-query data from Luccioni et al. (2024).</div>
+</div>
+
+<div class="eli5">
+  <h4>In Plain English</h4>
+  <p>Every word an AI writes uses a tiny bit of electricity and water. Write fewer unnecessary words, use less electricity and water. At the scale of millions of queries per day, these tiny amounts add up to the electricity bill of a small town.</p>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== XI. CONCLUSIONS ===== -->
+<h1 id="conclusions">XI. What to Do Next: Five Practical Recommendations</h1>
+
+<p class="drop-cap">I set out to test two hypotheses. My 55 experiments confirm both.</p>
+
+<table>
+  <thead>
+    <tr><th>Hypothesis</th><th>Result</th><th>Evidence</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>H1:</strong> Format constraints outperform persona-based approaches</td>
+      <td class="positive"><strong>Confirmed</strong></td>
+      <td>T5 achieved -73.9%. All persona-based techniques (T1, T6) <em>increased</em> output. (Section V)</td>
+    </tr>
+    <tr>
+      <td><strong>H2:</strong> Stacking yields diminishing returns</td>
+      <td class="positive"><strong>Confirmed</strong></td>
+      <td>T5 alone (89.8 tokens) outperformed all combinations including the Full Stack (107.4 tokens). (Section VIII)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>11.1 Five Things to Do Today</h2>
+
+<ol>
+  <li><strong>Constrain your output format.</strong> Specify the exact structure: "3 bullet points, each under 25 words, no preamble." This one change saves 74% of output tokens. (Section V, T5)</li>
+  <li><strong>Do not rely on persona-based prompts for efficiency.</strong> They improve quality, not cost. Role-based prompts increased output by 21.7% in my tests. (Section IX)</li>
+  <li><strong>Use Concise Chain-of-Thought for reasoning tasks.</strong> Pair step-by-step reasoning with a conciseness instruction. This saves roughly 10% whilst keeping quality high. (Section V, T4; based on Wei et al., 2022)</li>
+  <li><strong>Keep it simple.</strong> One well-chosen technique beats six stacked together. (Section VIII)</li>
+  <li><strong>Pick the right model.</strong> Haiku handles most queries well at 20% of Opus's cost. Use Opus only where quality demands it. (Anthropic Documentation, 2026)</li>
+</ol>
+
+<h2>11.2 Implications for AI Agents</h2>
+
+<p>AI agents* make dozens or hundreds of API calls per task. Every call is an opportunity for format constraints to save tokens. If an agent makes 50 calls per task, T5 formatting saves roughly 74% on <em>each</em> call. For an enterprise running thousands of agent tasks per day, this compounds into significant savings in both cost and execution time.</p>
+
+<h2>11.3 Limitations</h2>
+
+<ul>
+  <li><strong>Sample size:</strong> Five questions per configuration. A larger sample would strengthen confidence.</li>
+  <li><strong>Quality not measured:</strong> I measured token quantity, not response quality. Format-constrained answers are shorter but less detailed. Users should evaluate whether shorter answers meet their needs.</li>
+  <li><strong>Single model family:</strong> Results may differ for GPT-4, Gemini, or open-source models.</li>
+  <li><strong>Single-turn only:</strong> I tested one-off questions, not multi-turn conversations.</li>
+</ul>
+
+<div class="figure">
+  <img src="fig7_primary_dashboard.png" alt="Summary dashboard">
+  <div class="figure-caption"><span class="figure-number">Figure 7.</span> Summary dashboard showing all key metrics.</div>
+  <div class="figure-commentary"><strong>What this chart shows:</strong> Four panels summarising the entire study. Panel A ranks techniques by token savings (Output Format wins at 73.9%). Panel B shows the "token cost" of quality techniques (Positive Framing adds 12.8% more tokens). Panel C ranks techniques by speed (Output Format is fastest at 1.79s). Panel D compares baseline, best single technique, best combination, and full stack side by side, making it clear that the single best technique outperforms all combinations.</div>
+</div>
+
+<div class="pull-quote">
+  <p>"Every token you do not generate is a token you do not pay for, a watt you do not consume, and a drop of water you do not evaporate."</p>
+  <div class="attribution">The AI Lyceum, 2026</div>
+</div>
+
+<div class="page-number"><div class="page-footer">Confidential &amp; Copyrighted &copy; 2026 The AI Lyceum. All rights reserved.</div></div>
+
+
+<!-- ===== XII. REFERENCES ===== -->
+<h1 id="references">XII. References and Sources</h1>
+
+<ol class="references">
+  <li>Anthropic. "Claude Model Pricing." <em>Anthropic Documentation</em>, March 2026. Available at: docs.anthropic.com/en/docs/about-claude/pricing</li>
+  <li>Anthropic. "Prompt Engineering Guide." <em>Anthropic Documentation</em>, 2025. Available at: docs.anthropic.com/en/docs/build-with-claude/prompt-engineering</li>
+  <li>International Energy Agency. "Energy and AI." <em>World Energy Outlook Special Report</em>, April 2025. Available at: iea.org/reports/energy-and-ai</li>
+  <li>Li, P. et al. "Making AI Less 'Thirsty': Uncovering and Addressing the Secret Water Footprint of AI Models." <em>arXiv:2304.03271</em>, 2023.</li>
+  <li>Luccioni, A.S. et al. "Power Hungry Processing: Watts Driving the Cost of AI Deployment?" <em>ACM FAccT 2024</em>, 2024.</li>
+  <li>Patterson, D. et al. "Carbon Emissions and Large Neural Network Training." <em>arXiv:2104.10350</em>, 2021.</li>
+  <li>Sahoo, P. et al. "A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications." <em>arXiv:2402.07927</em>, 2024.</li>
+  <li>Schulhoff, S. et al. "The Prompt Report: A Systematic Survey of Prompting Techniques." <em>arXiv:2406.06608</em>, 2024.</li>
+  <li>Strubell, E. et al. "Energy and Policy Considerations for Deep Learning in NLP." <em>Proceedings of ACL 2019</em>, 2019.</li>
+  <li>Wei, J. et al. "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." <em>Proceedings of NeurIPS 2022</em>, 2022.</li>
+  <li>White, J. et al. "A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT." <em>arXiv:2302.11382</em>, 2023.</li>
+</ol>
+
+<p style="font-family: var(--font-sans); font-size: 0.78rem; color: var(--color-text-light); margin-top: 16px;"><em>All arXiv references verified at arxiv.org as of March 2026. Anthropic documentation verified at docs.anthropic.com. IEA report verified at iea.org.</em></p>
+
+<div class="section-divider"><span class="section-divider-inner"></span></div>
+
+<!-- CITATION -->
+<div class="citation-box">
+  <h3>How to Cite This Paper</h3>
+  <div class="citation-text">
+    Matharu, S. (2026). "The Prompt Efficiency Playbook: How to Make Claude Faster, Cheaper, and Better." <em>The AI Lyceum</em>, 16 March 2026.
+  </div>
+</div>
+
+<!-- PROVENANCE -->
+<div class="provenance-block">
+  <h3>Document Provenance</h3>
+  <p>This document's integrity can be verified using the SHA-256 hash below. The hash was generated from the final manuscript on the date of publication and can be checked against a timestamped record on the Bitcoin blockchain via <strong>OpenTimestamps</strong>.</p>
+  <code class="hash">SHA-256: [To be generated on final publication and timestamped via opentimestamps.org]</code>
+  <p>This provides cryptographic proof that the document existed in its current form on 16 March 2026, without relying on any centralised authority.</p>
+  <span class="badge">BLOCKCHAIN-VERIFIED PROVENANCE</span>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-card">
+  <h3>Connect with the Author</h3>
+  <p><strong style="color: #c4a882; font-size: 1.1rem;">Samraj Matharu</strong></p>
+  <p>Founder, The AI Lyceum</p>
+  <p style="margin-top: 12px;"><a href="mailto:hello@theailyceum.com">hello@theailyceum.com</a></p>
+  <p style="font-size: 0.8rem; color: #aaa; margin-top: 16px;">For questions about this research, collaboration enquiries, or speaking requests.</p>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <p><strong style="color: #666;">Disclaimer</strong></p>
+  <p>This paper presents the results of independent research conducted by The AI Lyceum. It is not sponsored by, endorsed by, or affiliated with Anthropic, OpenAI, Google, or any other AI company. All pricing data is sourced from publicly available documentation as of March 2026 (see Reference 1) and may change without notice. The cost projections are estimates based on experimental data and real-world results may vary depending on query complexity, response length, and model version.</p>
+  <p>The prompt techniques described here are provided for educational purposes. While my experiments measured token reduction, I did not assess response quality or factual accuracy. Users should evaluate whether format-constrained responses meet their specific needs before deploying these techniques in production.</p>
+  <p>This research was conducted using Claude Haiku 4.5. Results may differ on other models, including other Claude versions, GPT-4, Gemini, or open-source models.</p>
+  <p><strong style="color: #666;">Copyright</strong></p>
+  <p>&copy; 2026 Samraj Matharu / The AI Lyceum. All rights reserved. No part of this publication may be reproduced, distributed, or transmitted in any form without the prior written permission of the author, except for brief quotations in reviews and academic citations.</p>
+  <p>The AI Lyceum&reg; is a registered trademark of Samraj Matharu.</p>
+</div>
+
+<!-- COLOPHON -->
+<div style="text-align: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--color-divider);">
+  <img src="ai-lyceum-logo.png" alt="The AI Lyceum" style="width: 80px; margin-bottom: 12px;">
+  <div style="font-family: var(--font-sans); font-size: 0.72rem; color: var(--color-text-light); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;">The AI Lyceum&reg;</div>
+  <div style="font-family: var(--font-serif); font-size: 0.82rem; color: var(--color-text-light); font-style: italic; max-width: 400px; margin: 0 auto; line-height: 1.5;">
+    "The unexamined algorithm is not worth running."
+  </div>
+  <div style="font-family: var(--font-sans); font-size: 0.7rem; color: #999; margin-top: 16px;">
+    &copy; 2026 Samraj Matharu. All rights reserved.<br>
+    Primary research conducted 16 March 2026.<br>
+    Confidential and copyrighted content of The AI Lyceum.
+  </div>
+</div>
+
+</div><!-- end .document-page -->
+
+</body>
+</html>
